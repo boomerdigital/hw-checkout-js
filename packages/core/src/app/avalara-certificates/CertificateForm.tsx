@@ -3,6 +3,7 @@ import { FormikProps, withFormik } from 'formik';
 import * as Yup from 'yup';
 import stateAbbreviations from './stateAbbreviations';
 import stateReasons from './stateReasons';
+import reasonsMapping from './reasonsMapping';
 import Select from 'react-select';
 import './certificateForm.scss';
 import { CertificateFormValues } from './types';
@@ -82,7 +83,7 @@ const CertificateForm = ({
                                 <option value="">Select a Reason</option>
                                 {reasons.map((reason) => (
                                     <option key={reason} value={reason}>
-                                        {reason}
+                                        {reasonsMapping[reason] || reason}
                                     </option>
                                 ))}
                             </select>
