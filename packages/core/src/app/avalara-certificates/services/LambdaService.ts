@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { Address } from '@bigcommerce/checkout-sdk';
 const API_URL = 'https://yx1041xohb.execute-api.us-east-2.amazonaws.com/Prod/';
+//const API_URL = 'https://61oz9fx2d9.execute-api.us-east-2.amazonaws.com/Prod/';
 
 export const fetchToken = async (): Promise<string | null> => {
     try {
         const response = await fetch('/customer/current.jwt?app_client_id=bzhkzdt0f7vrrg92o4iym8rxvd872qj', {
+        //const response = await fetch('/customer/current.jwt?app_client_id=bzhkzdt0f7vrrg92o4iym8rxvd872qj', {
             method: 'GET',
             headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         });
