@@ -112,6 +112,8 @@ function appConfig(options, argv) {
                 plugins: [
                     new DefinePlugin({
                         'process.env.STORE_HASH': JSON.stringify(process.env.STORE_HASH),
+                        'process.env.API_URL': JSON.stringify(process.env.API_URL),
+                        'process.env.API_CLIENT_ID': JSON.stringify(process.env.API_CLIENT_ID),
                     }),
                     new StyleLintPlugin({
                         fix: !isProduction,

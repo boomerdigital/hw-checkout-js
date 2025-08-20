@@ -33,7 +33,7 @@ if (!fs.existsSync(envFile)) {
 dotenv.config({ path: envFile });
 
 // Validate required environment variables
-const requiredVars = ['STORE_HASH', 'ACCESS_TOKEN', 'CLIENT_ID'];
+const requiredVars = ['STORE_HASH', 'ACCESS_TOKEN', 'CLIENT_ID', 'STORE_URL', 'API_URL'];
 const missingVars = requiredVars.filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {
