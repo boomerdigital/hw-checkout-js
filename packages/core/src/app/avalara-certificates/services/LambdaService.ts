@@ -92,6 +92,10 @@ export const getFormData = (
     },
     shippingAddress: Address
 ) => {
+    // Use same composite customer code pattern as taxCalculation.ts
+    const store_hash = process.env.STORE_HASH || '5ytm98vliq';
+    const customerCode = `${store_hash}_${customer.id}`;
+    
     const formData  = {
         signedDate: effectiveDate,
         expirationDate: '9999-12-31',
@@ -104,7 +108,7 @@ export const getFormData = (
         },
         customers: [
             {
-                customerCode: customer.id,
+                customerCode: customerCode,
                 name: customer.fullName,
                 line1: shippingAddress.address1,
                 line2: shippingAddress.address2,
