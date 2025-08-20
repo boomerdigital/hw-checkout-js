@@ -110,6 +110,9 @@ function appConfig(options, argv) {
                     library: LIBRARY_NAME,
                 },
                 plugins: [
+                    new DefinePlugin({
+                        'process.env.STORE_HASH': JSON.stringify(process.env.STORE_HASH),
+                    }),
                     new StyleLintPlugin({
                         fix: !isProduction,
                         cache: true,

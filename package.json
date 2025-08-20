@@ -25,7 +25,8 @@
     "regenerate-har": "npx nx run test-framework:regenerate-har",
     "lint": "npx nx run-many --target=lint --all",
     "test": "npx nx run-many --target=test --all",
-    "test:watch": "npx nx run-many --target=test --all --watch"
+    "test:watch": "npx nx run-many --target=test --all --watch",
+    "deploy": "node scripts/deploy.cjs"
   },
   "jest-junit": {
     "addFileAttribute": "true"

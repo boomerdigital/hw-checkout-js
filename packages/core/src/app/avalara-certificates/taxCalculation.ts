@@ -1,7 +1,9 @@
 
 import { validateTaxesWithAvalara } from './services/LambdaService';
 
-const store_hash='5ytm98vliq'
+// Dynamically get store hash from environment, fallback to staging if not set
+const store_hash = process.env.STORE_HASH || '5ytm98vliq';
+
 export const calculateTaxes = async (cart: any, shippingAddress: any, lineItems: any, customerId: any, shippingCost:any) => {
     const date = new Date().toISOString().split('T')[0];
     const allItems = [

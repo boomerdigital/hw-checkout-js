@@ -12,4 +12,11 @@ dist/
 /packages/test-framework/report
 /packages/test-framework/screenshots
 /packages/test-framework/videos
+
+# Environment files
 .env
+.env.*
+.env.local
+.env.staging
+.env.production
+.env.backup
