@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 // Default to .env.staging unless --env=production is passed
 const envArg = process.argv.find(arg => arg.startsWith('--env='));
-let envFile = '.env';  // Default to staging
+let envFile = '.env.staging';  // Default to staging
 let backupFile = '.env.backup';
 
 if (envArg) {
@@ -17,7 +17,7 @@ if (envArg) {
 		console.log(`🔧 Configuring for ${envValue} environment...`);
 	}
 } else {
-	console.log('🔧 Using default STAGING environment (.env)...');
+	console.log('🔧 Using default STAGING environment (.env.staging)...');
 }
 
 // Check if the environment file exists
