@@ -3,10 +3,11 @@ import { Address } from '@bigcommerce/checkout-sdk';
 
 // Use environment variable with fallback to staging API URL
 const API_URL = process.env.API_URL || 'https://yx1041xohb.execute-api.us-east-2.amazonaws.com/Prod/';
+const API_CLIENT_ID = process.env.API_CLIENT_ID || 'bzhkzdt0f7vrrg92o4iym8rxvd872qj';
 
 export const fetchToken = async (): Promise<string | null> => {
     try {
-        const response = await fetch('/customer/current.jwt?app_client_id=bzhkzdt0f7vrrg92o4iym8rxvd872qj', {
+        const response = await fetch(`/customer/current.jwt?app_client_id=${API_CLIENT_ID}`, {
             method: 'GET',
             headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         });

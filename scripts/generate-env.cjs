@@ -33,7 +33,7 @@ if (!fs.existsSync(envFile)) {
 dotenv.config({ path: envFile });
 
 // Validate required environment variables
-const requiredVars = ['STORE_HASH', 'ACCESS_TOKEN', 'CLIENT_ID', 'API_URL'];
+const requiredVars = ['STORE_HASH', 'ACCESS_TOKEN', 'CLIENT_ID', 'API_URL', 'API_CLIENT_ID'];
 const missingVars = requiredVars.filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {
@@ -58,4 +58,5 @@ console.log('📋 Environment Configuration:');
 console.log(`  Store Hash: ${process.env.STORE_HASH}`);
 console.log(`  Store URL: ${process.env.STORE_URL || 'Not set'}`);
 console.log(`  API URL: ${process.env.API_URL || 'Not set'}`);
+console.log(`  API Client ID: ${process.env.API_CLIENT_ID || 'Not set'}`);
 console.log('');
