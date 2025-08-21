@@ -1,6 +1,176 @@
-# Checkout JS
+# Handcuff Warehouse Checkout JS
 
-Checkout JS is a browser-based application providing a seamless UI for BigCommerce shoppers to complete their checkout. It is also known as [Optimized One-Page Checkout](https://support.bigcommerce.com/s/article/Optimized-Single-Page-Checkout), which is currently the recommended checkout option for all BigCommerce stores.
+Custom BigCommerce Checkout JS implementation with integrated Avalara tax exemption certificate management for Handcuff Warehouse.
+
+## Environment Configuration
+
+This project uses environment-specific configuration files for multi-environment deployments:
+
+### Environment Files
+
+Create the following environment files in the project root:
+
+#### `.env.staging`
+```bash
+PORT=8080
+MODE=replay
+
+# BigCommerce API Configuration
+ACCESS_TOKEN=your_staging_access_token
+CLIENT_NAME=Custom-checkout
+CLIENT_ID=your_staging_client_id
+CLIENT_SECRET=your_staging_client_secret
+
+# Store Configuration
+STORE_HASH=5ytm98vliq
+STORE_URL=https://bmstaging.mybigcommerce.com
+
+# Lambda API Configuration
+API_URL=https://yx1041xohb.execute-api.us-east-2.amazonaws.com/Prod
+
+# Certificate Configuration
+COMPANY_CODE=BOOMER
+COMPANY_ID=866140
+```
+
+#### `.env.production`
+```bash
+PORT=8080
+MODE=replay
+
+# BigCommerce API Configuration
+ACCESS_TOKEN=your_production_access_token
+CLIENT_NAME=Custom-checkout
+CLIENT_ID=your_production_client_id
+CLIENT_SECRET=your_production_client_secret
+
+# Store Configuration
+STORE_HASH=83ivwebri3
+STORE_URL=https://www.handcuffwarehouse.com
+
+# Lambda API Configuration
+API_URL=https://61oz9fx2d9.execute-api.us-east-2.amazonaws.com/Prod
+
+# Certificate Configuration
+COMPANY_CODE=BOOMER
+COMPANY_ID=866140
+```
+
+### Environment Variables
+
+- `STORE_HASH`: BigCommerce store identifier (environment-specific)
+- `API_URL`: Lambda API endpoint for certificate management
+- `ACCESS_TOKEN`: BigCommerce API access token
+- `CLIENT_ID/CLIENT_SECRET`: BigCommerce app credentials
+- `COMPANY_CODE/COMPANY_ID`: Avalara company identification
+
+## Deployment Instructions
+
+### Prerequisites
+
+Install dependencies:
+
+```bash
+npm ci
+```
+
+### Deploy to Staging
+
+```bash
+npm run deploy -- --env=staging
+```
+
+### Deploy to Production
+
+```bash
+npm run deploy -- --env=production
+```
+
+### Manual Build Process
+
+For development or troubleshooting:
+
+1. Generate environment configuration:
+   ```bash
+   node scripts/generate-env.cjs --env=staging  # or --env=production
+   ```
+
+2. Build the application:
+   ```bash
+   npm run build
+   ```
+
+3. Upload to BigCommerce control panel or use API deployment
+
+## Development Setup
+
+For local development with watch mode:
+
+```bash
+npm run dev
+```
+
+For local testing server:
+
+```bash
+npm run dev:server
+```
+
+Then enter the local URL (e.g., `http://127.0.0.1:8080/auto-loader-dev.js`) in BigCommerce Checkout Settings.
+
+## Tax Certificate Integration
+
+This checkout includes custom Avalara certificate management:
+
+### Key Features
+
+- **Certificate Creation**: Modal-based form with state-specific exemption reasons
+- **Real-time Tax Calculation**: Applies certificates during checkout
+- **Customer Validation**: BigCommerce JWT token authentication
+- **Environment Isolation**: Separate store hashes prevent data cross-contamination
+
+### Key Files
+
+- `packages/core/src/app/avalara-certificates/`: Certificate management components
+- `packages/core/src/app/avalara-certificates/taxCalculation.ts`: Tax calculation with certificate application
+- `packages/core/src/app/avalara-certificates/stateReasons.ts`: State-specific exemption reasons
+- `scripts/generate-env.cjs`: Environment configuration management
+- `scripts/deploy.cjs`: Automated deployment script
+
+### Certificate Data Flow
+
+```
+Checkout Form → Customer JWT → Lambda Authorizer → Avalara API → Tax Calculation
+```
+
+### State-Based Exemption Logic
+
+The system maps US states and Canadian provinces to valid exemption reason codes:
+- Federal Government
+- Local Government  
+- Resale
+- Tribal Government
+- (State-specific variations)
+
+## Architecture Notes
+
+### Multi-Environment Isolation
+
+Each environment uses:
+- Separate BigCommerce store hashes
+- Distinct Lambda API endpoints  
+- Isolated Avalara company configurations
+- Environment-specific customer code prefixes
+
+This prevents certificate cross-contamination between staging and production.
+
+### Webpack Environment Injection
+
+The build system uses `DefinePlugin` to inject environment variables into the client-side bundle, enabling dynamic API configurations.
+
+---
+
+# Original BigCommerce Documentation
 
 ## Requirements
 
