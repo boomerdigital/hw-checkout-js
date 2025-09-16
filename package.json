@@ -26,7 +26,13 @@
     "lint": "npx nx run-many --target=lint --all",
     "test": "npx nx run-many --target=test --all",
     "test:watch": "npx nx run-many --target=test --all --watch",
-    "deploy": "node scripts/deploy.cjs"
+    "deploy": "node scripts/deploy.cjs",
+    "deploy:staging": "npm run deploy -- --env=staging",
+    "deploy:production": "npm run deploy -- --env=production",
+    "clean": "npx nx reset && rm -rf dist build tmp .nx/cache",
+    "build:fresh": "npm run clean && npm run deploy",
+    "build:force": "npx nx reset && rm -rf dist && NODE_ENV=production NX_SKIP_NX_CACHE=true npx nx run core:build --skip-nx-cache",
+    "verify:dist": "node -e \"const fs=require('fs'); const path='./dist'; if(!fs.existsSync(path)) throw new Error('Dist folder missing'); const files=fs.readdirSync(path); console.log('✅ Dist folder exists with', files.length, 'files:', files.join(', '));\""
   },
   "jest-junit": {
     "addFileAttribute": "true"

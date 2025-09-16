@@ -16,8 +16,30 @@
           "dev",
           "lint",
           "test"
-        ]
+        ],
+        "cacheDirectory": "tmp/nx-cache",
+        "skipNxCache": false
       }
+    }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/.eslintrc.json"
+    ],
+    "sharedGlobals": [
+      "{workspaceRoot}/.env*",
+      "{workspaceRoot}/webpack.config.js",
+      "{workspaceRoot}/package.json"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "inputs": ["production", "^production"],
+      "dependsOn": ["^build"]
     }
   }
 }

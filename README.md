@@ -49,7 +49,7 @@ STORE_HASH=83ivwebri3
 STORE_URL=https://www.handcuffwarehouse.com
 
 # Lambda API Configuration
-API_URL=https://61oz9fx2d9.execute-api.us-east-2.amazonaws.com/Prod
+API_URL=https://b7q71nfgm2.execute-api.us-east-2.amazonaws.com/Prod
 
 # Certificate Configuration
 COMPANY_CODE=BOOMER
