@@ -18,4 +18,8 @@ dist/
 .env.local
 .env.staging
 .env.production
+
+# Build and temporary files
+build.log
+tmp/
 .env.backup
