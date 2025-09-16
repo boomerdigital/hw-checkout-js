@@ -27,15 +27,7 @@ const CreateCertificate: React.FC<CreateCertificateProps & { checkoutService: an
     };
     const handleSubmit = async (values: CertificateFormValues) => {
         try {
-            const formData = getFormData(
-                values.region,
-                values.exemptionReason,
-                values.effectiveDate,
-                values.entityUseCode,
-                values.exemptionDescription,
-                customer,
-                shippingAddress
-            );
+            const formData = getFormData(values, customer, shippingAddress);
 
             const result = await createCertificate(formData);
             if (result) {
