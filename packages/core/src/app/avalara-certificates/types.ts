@@ -38,6 +38,10 @@ export interface CertificateDetail {
     businessType: string;
     exemptionDescription: string;
     certificateLabels: OptionType[];
+    
+    // CertExpress specific fields
+    certExpressId?: string;
+    certExpressData?: any;
 }
 export interface OptionType {
     value: string;
