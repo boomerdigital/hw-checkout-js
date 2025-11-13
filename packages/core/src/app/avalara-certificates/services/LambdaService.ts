@@ -80,37 +80,28 @@ export const createCertificate = async (formData: any) => {
     }
 };
 
-export const getFormData = (formValues: any, customer: any, _shippingAddress: Address) => {
+export const getFormData = (formValues: any, customer: any, shippingAddress: Address) => {
     const formData = {
         signedDate: formValues.effectiveDate,
-        expirationDate: formValues.expirationDate || '9999-12-31',
+        expirationDate: '9999-12-31',
         exposureZone: { name: formValues.region },
         exemptionReason: { name: formValues.exemptionReason },
-        exemptionNumber: formValues.exemptionNumber,
         valid: true,
-        isSingleCertificate: formValues.certificateType === 'single',
         CertificateCustomFields: {
-            1: formValues.entityUseCode,
-            2: formValues.exemptionDescription,
-            3: formValues.businessType,
-            4: formValues.dbaName,
-            5: formValues.contactTitle,
-            6: formValues.federalTaxId,
+            1: formValues.entityUseCode || '',
+            2: formValues.exemptionDescription || '',
         },
         customers: [
             {
-                customerCode: customer.id,
-                name: formValues.businessName,
-                line1: formValues.businessAddress,
-                city: formValues.businessCity,
-                postalCode: formValues.businessZip,
-                phoneNumber: formValues.contactPhone,
-                emailAddress: formValues.contactEmail,
+                customerCode: customer.id.toString(),
+                name: `${customer.firstName} ${customer.lastName}`,
+                line1: shippingAddress.address1,
+                city: shippingAddress.city,
+                postalCode: shippingAddress.postalCode,
+                phoneNumber: shippingAddress.phone || customer.email,
+                emailAddress: customer.email,
                 country: 'US',
-                region: formValues.businessState,
-                // Additional contact information
-                contactName: formValues.contactName,
-                federalTaxId: formValues.federalTaxId,
+                region: shippingAddress.stateOrProvinceCode || shippingAddress.stateOrProvince,
             },
         ],
     };
