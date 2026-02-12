@@ -3,7 +3,7 @@ import { Address } from '@bigcommerce/checkout-sdk';
 
 // Use environment variable with fallback to PRODUCTION API URL to avoid accidental staging usage
 const API_URL = 'https://b7q71nfgm2.execute-api.us-east-2.amazonaws.com/Prod/';
-//const API_URL = process.env.API_URL || 'https://b7q71nfgm2.execute-api.us-east-2.amazonaws.com/Prod/';
+//const API_URL = process.env.API_URL || 'https://imfzirapy8.execute-api.us-east-2.amazonaws.com/Prod/';
 const API_CLIENT_ID = process.env.API_CLIENT_ID || 'npqb1dowfj7yeh7d1fqwhcod7wqs6al';
 
 export const fetchToken = async (): Promise<string | null> => {
