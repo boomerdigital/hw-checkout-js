@@ -16,6 +16,7 @@ import {
     createEmbeddedCheckoutStylesheet,
     createEmbeddedCheckoutSupport,
 } from '../embeddedCheckout';
+import { PayPalRestrictionProvider } from '../paypal-restriction';
 
 import Checkout from './Checkout';
 
@@ -62,13 +63,15 @@ export default class CheckoutApp extends Component<CheckoutAppProps> {
                     <CheckoutProvider checkoutService={this.checkoutService}>
                         <AnalyticsProvider checkoutService={this.checkoutService}>
                             <ExtensionProvider checkoutService={this.checkoutService}>
-                                <Checkout
-                                    {...this.props}
-                                    createEmbeddedMessenger={createEmbeddedCheckoutMessenger}
-                                    embeddedStylesheet={this.embeddedStylesheet}
-                                    embeddedSupport={this.embeddedSupport}
-                                    errorLogger={this.errorLogger}
-                                />
+                                <PayPalRestrictionProvider checkoutService={this.checkoutService}>
+                                    <Checkout
+                                        {...this.props}
+                                        createEmbeddedMessenger={createEmbeddedCheckoutMessenger}
+                                        embeddedStylesheet={this.embeddedStylesheet}
+                                        embeddedSupport={this.embeddedSupport}
+                                        errorLogger={this.errorLogger}
+                                    />
+                                </PayPalRestrictionProvider>
                             </ExtensionProvider>
                         </AnalyticsProvider>
                     </CheckoutProvider>

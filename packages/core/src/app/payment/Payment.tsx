@@ -26,6 +26,7 @@ import {
     isErrorWithType,
 } from '../common/error';
 import { EMPTY_ARRAY } from '../common/utility';
+import { withPayPalRestriction } from '../paypal-restriction';
 import { TermsConditionsType } from '../termsConditions';
 
 import mapSubmitOrderErrorMessage, { mapSubmitOrderErrorTitle } from './mapSubmitOrderErrorMessage';
@@ -709,4 +710,4 @@ export function mapToPaymentProps({
     };
 }
 
-export default withAnalytics(withLanguage(withCheckout(mapToPaymentProps)(Payment)));
+export default withAnalytics(withLanguage(withCheckout(mapToPaymentProps)(withPayPalRestriction(Payment))));

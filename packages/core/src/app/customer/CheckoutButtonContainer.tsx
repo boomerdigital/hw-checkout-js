@@ -7,6 +7,7 @@ import { WalletButtonsContainerSkeleton } from '@bigcommerce/checkout/ui';
 
 
 import { withCheckout } from '../checkout';
+import { removePayPalMethodIds, useIsPayPalHidden } from '../paypal-restriction';
 
 import { getSupportedMethodIds } from './getSupportedMethods';
 import resolveCheckoutButton from './resolveCheckoutButton';
@@ -23,7 +24,7 @@ interface WithCheckoutCheckoutButtonContainerProps {
     availableMethodIds: string[];
     checkoutState: CheckoutSelectors;
     checkoutService: CheckoutService;
-    isLoading: boolean;
+    settledMethodIds: string[];
 }
 
 const paypalCommerceIds = [
@@ -40,20 +41,28 @@ const CheckoutButtonContainer: FunctionComponent<CheckoutButtonContainerProps & 
         checkoutService,
         checkoutState,
         checkEmbeddedSupport,
-        isLoading,
         isPaymentStepActive,
         onUnhandledError,
         onWalletButtonClick,
+        settledMethodIds,
     }) => {
     const { language } = useLocale();
+    const isPayPalHidden = useIsPayPalHidden();
+    const methodIds = removePayPalMethodIds(availableMethodIds, isPayPalHidden);
+
+    if (methodIds.length === 0) {
+        return null;
+    }
 
     try {
-        checkEmbeddedSupport(availableMethodIds);
+        checkEmbeddedSupport(methodIds);
     } catch (error) {
         return null;
     }
 
-    const renderButtons = () => availableMethodIds.map((methodId) => {
+    const isLoading = methodIds.some((methodId) => !settledMethodIds.includes(methodId));
+
+    const renderButtons = () => methodIds.map((methodId) => {
         if (isPaymentStepActive && isPayPalCommerce(methodId)) {
             return null;
         }
@@ -92,7 +101,7 @@ const CheckoutButtonContainer: FunctionComponent<CheckoutButtonContainerProps & 
                 <TranslatedString id="remote.start_with_text" />
             </p>
             <div className='checkout-buttons-auto-layout'>
-                <WalletButtonsContainerSkeleton buttonsCount={availableMethodIds.length} isLoading={isLoading}>
+                <WalletButtonsContainerSkeleton buttonsCount={methodIds.length} isLoading={isLoading}>
                     <div className="checkoutRemote">
                         {renderButtons()}
                     </div>
@@ -132,15 +141,15 @@ function mapToCheckoutButtonContainerProps({
         return null;
     }
 
-    const isLoading = availableMethodIds.filter(
+    const settledMethodIds = availableMethodIds.filter(
         (methodId) => Boolean(getInitializeCustomerError(methodId)) || isInitializedCustomer(methodId)
-    ).length !== availableMethodIds.length;
+    );
 
     return {
         checkoutService,
         checkoutState,
         availableMethodIds,
-        isLoading,
+        settledMethodIds,
     }
 }
 

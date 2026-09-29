@@ -4,6 +4,7 @@ import React, { FunctionComponent, memo } from 'react';
 import { TranslatedString } from '@bigcommerce/checkout/locale';
 
 import { isApplePayWindow } from '../common/utility';
+import { removePayPalMethodIds, useIsPayPalHidden } from '../paypal-restriction';
 
 import CheckoutButton from './CheckoutButton';
 import { AmazonPayV2Button, ApplePayButton, PayPalCommerceButton } from './customWalletButton';
@@ -67,7 +68,11 @@ const CheckoutButtonList: FunctionComponent<CheckoutButtonListProps> = ({
     hideText = false,
     ...rest
 }) => {
-    const supportedMethodIds = filterUnsupportedMethodIds(methodIds ?? []);
+    const isPayPalHidden = useIsPayPalHidden();
+    const supportedMethodIds = removePayPalMethodIds(
+        filterUnsupportedMethodIds(methodIds ?? []),
+        isPayPalHidden,
+    );
 
     if (supportedMethodIds.length === 0) {
         return null;
